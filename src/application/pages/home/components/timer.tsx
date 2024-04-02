@@ -25,8 +25,8 @@ export const Timer = ({ initialTime, onTimeEnd }: ITimer): React.ReactNode => {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Time: {time}</h1>
+    <div id="timer">
+      <p className="text-2xl font-semibold">Time: {time}</p>
     </div>
   );
 };

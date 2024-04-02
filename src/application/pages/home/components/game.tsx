@@ -57,7 +57,7 @@ export const Game = ({
   }, [input]);
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div id="game" className="flex flex-col space-y-4">
       <div className="flex flex-row space-x-4 self-center">
         {words.map((word) => {
           if (correctWords.includes(word)) {

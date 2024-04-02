@@ -4,7 +4,7 @@ interface IWpm {
 
 export const Wpm = ({ value }: IWpm) => {
   return (
-    <div>
+    <div id="wpm">
       <p className="text-2xl">WPM: {value}</p>
     </div>
   );
