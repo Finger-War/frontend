@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 import { Timer } from '@/application/pages/home/components/timer';
 
-describe('Timer component', () => {
+describe('Timer Component', () => {
   test('Should renders value correctly', () => {
     const any_value = 0;
 
