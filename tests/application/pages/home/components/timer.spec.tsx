@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import { Timer } from '@/application/pages/home/components/timer';
 
 describe('Timer component', () => {
-  it('Should renders value correctly', () => {
+  test('Should renders value correctly', () => {
     const any_value = 0;
 
     const { getByText } = render(<Timer initialTime={any_value} />);
