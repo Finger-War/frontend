@@ -34,4 +34,22 @@ describe('Game Component', () => {
       expect(onInputCorrectWordMock).toHaveBeenCalledWith('first');
     });
   });
+
+  test('Should trigger wrong word', async () => {
+    const words = ['first', 'second', 'third'];
+    const onInputWrongWordMock = jest.fn();
+
+    const { getByPlaceholderText } = render(
+      <Game words={words} onInputWrongWord={onInputWrongWordMock} />,
+    );
+
+    const inputElement = getByPlaceholderText('Type here.....');
+
+    fireEvent.change(inputElement, { target: { value: 'fourth ' } });
+    fireEvent.keyPress(inputElement, { key: 'Enter', code: 13, charCode: 13 });
+
+    await waitFor(() => {
+      expect(onInputWrongWordMock).toHaveBeenCalledWith('fourth');
+    });
+  });
 });
