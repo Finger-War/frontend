@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 
-import { Wpm } from '@/application/pages/home/components/wpm';
-
 import { render } from '@testing-library/react';
+
+import { Wpm } from '@/application/pages/home/components/wpm';
 
 describe('Wpm Component', () => {
   test('Should renders value correctly', () => {
