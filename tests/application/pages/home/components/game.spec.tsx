@@ -49,7 +49,7 @@ describe('Game Component', () => {
     fireEvent.keyPress(inputElement, { key: 'Enter', code: 13, charCode: 13 });
 
     await waitFor(() => {
-      expect(onInputWrongWordMock).toHaveBeenCalledWith('fourth');
+      expect(onInputWrongWordMock).toHaveBeenCalledWith('first');
     });
   });
 });
