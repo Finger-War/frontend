@@ -2,14 +2,16 @@ import '@testing-library/jest-dom';
 
 import { Home } from '@/application/pages/home';
 
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 describe('Home Page', () => {
-  test("Should return 'Hello, Fingerwar!'", () => {
-    render(Home());
+  test('Should renders correctly initials element', () => {
+    const { container } = render(Home());
 
-    const h1 = screen.getByText('Hello, Fingerwar!');
+    const headerElement = container.querySelector('header');
+    const footerElement = container.querySelector('footer');
 
-    expect(h1).toBeInTheDocument();
+    expect(headerElement).toBeInTheDocument();
+    expect(footerElement).toBeInTheDocument();
   });
 });
