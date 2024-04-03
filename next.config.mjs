@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   typescript: {
-    tsconfigPath: "./tsconfig.build.json"
-  }
+    tsconfigPath: './tsconfig.build.json',
+  },
 };
 
 export default nextConfig;

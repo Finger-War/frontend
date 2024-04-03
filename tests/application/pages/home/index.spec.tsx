@@ -3,19 +3,18 @@ import '@testing-library/jest-dom';
 import React from 'react';
 
 import { fireEvent, render } from '@testing-library/react';
-
-import { Home } from '@/application/pages/home';
+import { HomePage } from '@/application/pages/home';
 
 describe('Home Page', () => {
   test('Should renders correctly', () => {
-    const { getByText } = render(<Home />);
+    const { getByText } = render(<HomePage />);
 
     expect(getByText('Start Playing')).toBeInTheDocument();
     expect(getByText('Play')).toBeInTheDocument();
   });
 
   test('Should renders timer and game after start playing', async () => {
-    const { container, getByText } = render(<Home />);
+    const { container, getByText } = render(<HomePage />);
 
     const textElement = getByText('Start Playing');
     const buttonElement = getByText('Play');
