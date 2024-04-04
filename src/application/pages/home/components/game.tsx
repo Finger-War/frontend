@@ -39,6 +39,10 @@ export const Game = ({
   const resetInput = () => setInput('');
 
   useEffect(() => {
+    if (!words) {
+      return;
+    }
+
     const inputHasSpace = input.endsWith(' ');
 
     if (!inputHasSpace) {

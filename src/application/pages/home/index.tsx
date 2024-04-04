@@ -10,9 +10,11 @@ import { Wpm } from './components/wpm';
 
 import { UseMatchData } from '@/application/hooks/useMatchData';
 
-export const HomePage = (): React.JSX.Element => {
-  const words = ['First', 'Second', 'Third'];
+interface IHomePage {
+  words: string[];
+}
 
+export const HomePage = ({ words }: IHomePage) => {
   const [showWpm, setShowWpm] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 

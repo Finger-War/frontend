@@ -1,7 +1,7 @@
 'use client';
 
-import { HomePage } from '@/application/pages/home';
+import { MakeHome } from '@/main/factories/app/home/page';
 
 export default function Page() {
-  return <HomePage />;
+  return <MakeHome />;
 }
