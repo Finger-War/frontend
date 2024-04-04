@@ -15,6 +15,7 @@ import {
   WikipediaRandomWords,
   ErrorDetails,
 } from '@/infrastructure/services/useWikipedia';
+import { LoadingSpinner } from '@/application/components/ui/spinner';
 
 interface IHomePage {
   query: UseQueryResult<WikipediaRandomWords, ErrorDetails>;
@@ -43,7 +44,12 @@ export const HomePage = ({ query }: IHomePage) => {
   const { isLoading, data: words } = query;
 
   if (isLoading || !words) {
-    return;
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen space-y-4">
+        <p className="text-2xl font-medium">Loading</p>
+        <LoadingSpinner size={30} />
+      </div>
+    );
   }
 
   return (
