@@ -28,6 +28,22 @@ describe('Home Page', () => {
     expect(getByText('Play')).toBeInTheDocument();
   });
 
+  test('Should render loading when words generator is fetching', () => {
+    const words = ['first', 'second', 'third'];
+
+    const query = { isLoading: true, words };
+
+    const { getByText } = render(
+      <HomePage
+        query={
+          query as unknown as UseQueryResult<WikipediaRandomWords, ErrorDetails>
+        }
+      />,
+    );
+
+    expect(getByText('Loading')).toBeInTheDocument();
+  });
+
   test('Should renders timer and game after start playing', async () => {
     const words = ['first', 'second', 'third'];
     const { container, getByText } = render(
