@@ -7,14 +7,16 @@ import { HomePage } from '@/application/pages/home';
 
 describe('Home Page', () => {
   test('Should renders correctly', () => {
-    const { getByText } = render(<HomePage />);
+    const words = ['first', 'second', 'third'];
+    const { getByText } = render(<HomePage words={words} />);
 
     expect(getByText('Start Playing')).toBeInTheDocument();
     expect(getByText('Play')).toBeInTheDocument();
   });
 
   test('Should renders timer and game after start playing', async () => {
-    const { container, getByText } = render(<HomePage />);
+    const words = ['first', 'second', 'third'];
+    const { container, getByText } = render(<HomePage words={words} />);
 
     const textElement = getByText('Start Playing');
     const buttonElement = getByText('Play');
