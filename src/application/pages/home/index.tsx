@@ -9,12 +9,18 @@ import { Timer } from './components/timer';
 import { Wpm } from './components/wpm';
 
 import { UseMatchData } from '@/application/hooks/useMatchData';
+import { UseQueryResult } from '@tanstack/react-query';
+
+import {
+  WikipediaRandomWords,
+  ErrorDetails,
+} from '@/infrastructure/services/useWikipedia';
 
 interface IHomePage {
-  words: string[];
+  query: UseQueryResult<WikipediaRandomWords, ErrorDetails>;
 }
 
-export const HomePage = ({ words }: IHomePage) => {
+export const HomePage = ({ query }: IHomePage) => {
   const [showWpm, setShowWpm] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
@@ -33,6 +39,12 @@ export const HomePage = ({ words }: IHomePage) => {
   const onCorrectWord = () => {
     dispatchMatchData({ type: 'increment_wpm' });
   };
+
+  const { isLoading, data: words } = query;
+
+  if (isLoading || !words) {
+    return;
+  }
 
   return (
     <div className="flex flex-col min-h-screen justify-between">

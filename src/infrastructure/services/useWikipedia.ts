@@ -1,9 +1,9 @@
 import { htmlToText, symbolsToText } from '@/infrastructure/utils';
 import { useQuery } from '@tanstack/react-query';
 
-type WikipediaRandomWords = string[];
+export type WikipediaRandomWords = string[];
 
-type ErrorDetails = {
+export type ErrorDetails = {
   message?: string;
   response?: {
     status: number;
