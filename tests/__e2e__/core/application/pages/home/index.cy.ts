@@ -20,7 +20,7 @@ describe('Home Page', () => {
 
   it('Should change word color to red if wrong word is provided', () => {
     cy.get('[data-test="play-button"]').click();
-    cy.get('[data-test="game-input"]').type(`any_wrong_wrong`).type(' ');
+    cy.get('[data-test="game-input"]').type(`any_wrong_word`).type(' ');
     cy.get('[data-test="game-words"]')
       .first()
       .should('have.class', 'text-red-600');
