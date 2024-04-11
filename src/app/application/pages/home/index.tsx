@@ -59,7 +59,7 @@ export const HomePage = ({ query }: IHomePage) => {
       {!isPlaying ? (
         <div className="flex flex-col justify-center items-center space-y-6">
           <p className="text-2xl font-medium">Start Playing</p>
-          {showWpm && <Wpm value={matchData.wpm} />}
+          {showWpm && <Wpm data-test="wpm" value={matchData.wpm} />}
 
           <Button data-test="play-button" size="lg" onClick={start}>
             Play
@@ -72,6 +72,7 @@ export const HomePage = ({ query }: IHomePage) => {
             data-test="game"
             words={words}
             onInputCorrectWord={onCorrectWord}
+            enoughWords={stop}
           />
         </div>
       )}

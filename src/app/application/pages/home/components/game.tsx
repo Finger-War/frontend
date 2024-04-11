@@ -5,12 +5,14 @@ interface IGame {
   words: string[];
   onInputCorrectWord?: (value: string) => void;
   onInputWrongWord?: (value: string) => void;
+  enoughWords?: () => void;
 }
 
 export const Game = ({
   words,
   onInputCorrectWord,
   onInputWrongWord,
+  enoughWords,
   ...rest
 }: IGame) => {
   const [input, setInput] = useState<string>('');
@@ -60,6 +62,14 @@ export const Game = ({
 
     return addCorrectWord(inputWithoutSpace);
   }, [input]);
+
+  useEffect(() => {
+    if (correctWords.length + wrongWords.length === words.length) {
+      enoughWords?.();
+    }
+
+    return () => {};
+  }, [correctWords, wrongWords]);
 
   return (
     <div className="flex flex-col space-y-4" {...rest}>
