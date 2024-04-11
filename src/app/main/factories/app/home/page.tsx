@@ -1,8 +1,12 @@
+'use client';
+
 import { HomePage } from '@/application/pages/home';
 import { UseWikipedia } from '@/infrastructure/services/useWikipedia';
 
-export const MakeHome = () => {
+const MakeHome = () => {
   const { query } = UseWikipedia();
 
   return <HomePage query={query} />;
 };
+
+export default MakeHome;
