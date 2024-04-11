@@ -61,14 +61,18 @@ export const HomePage = ({ query }: IHomePage) => {
           <p className="text-2xl font-medium">Start Playing</p>
           {showWpm && <Wpm value={matchData.wpm} />}
 
-          <Button size="lg" onClick={start}>
-            <p id="play-buton">Play</p>
+          <Button data-test="play-button" size="lg" onClick={start}>
+            Play
           </Button>
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center space-y-4">
-          <Timer initialTime={30} onTimeEnd={stop} />
-          <Game words={words} onInputCorrectWord={onCorrectWord} />
+          <Timer data-test="timer" initialTime={30} onTimeEnd={stop} />
+          <Game
+            data-test="game"
+            words={words}
+            onInputCorrectWord={onCorrectWord}
+          />
         </div>
       )}
 

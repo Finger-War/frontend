@@ -11,6 +11,7 @@ export const Game = ({
   words,
   onInputCorrectWord,
   onInputWrongWord,
+  ...rest
 }: IGame) => {
   const [input, setInput] = useState<string>('');
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0);
@@ -61,7 +62,7 @@ export const Game = ({
   }, [input]);
 
   return (
-    <div id="game" className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4" {...rest}>
       <div className="flex flex-row space-x-4 self-center">
         {words.map((word) => {
           if (correctWords.includes(word)) {

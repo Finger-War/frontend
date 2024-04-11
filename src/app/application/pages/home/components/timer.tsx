@@ -5,7 +5,11 @@ interface ITimer {
   onTimeEnd?: () => void;
 }
 
-export const Timer = ({ initialTime, onTimeEnd }: ITimer): React.ReactNode => {
+export const Timer = ({
+  initialTime,
+  onTimeEnd,
+  ...rest
+}: ITimer): React.ReactNode => {
   const [time, setTime] = useState<number>(initialTime);
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export const Timer = ({ initialTime, onTimeEnd }: ITimer): React.ReactNode => {
   }, []);
 
   return (
-    <div id="timer">
+    <div {...rest}>
       <p className="text-2xl font-semibold">Time: {time}</p>
     </div>
   );
