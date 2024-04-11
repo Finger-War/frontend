@@ -67,7 +67,11 @@ export const Game = ({
         {words.map((word) => {
           if (correctWords.includes(word)) {
             return (
-              <p key={word} className="text-2xl  text-green-600">
+              <p
+                data-test="game-words"
+                key={word}
+                className="text-2xl  text-green-600"
+              >
                 {word}
               </p>
             );
@@ -75,14 +79,22 @@ export const Game = ({
 
           if (wrongWords.includes(word)) {
             return (
-              <p key={word} className="text-2xl text-red-600">
+              <p
+                data-test="game-words"
+                key={word}
+                className="text-2xl text-red-600"
+              >
                 {word}
               </p>
             );
           }
 
           return (
-            <p key={word} className="text-2xl text-black">
+            <p
+              data-test="game-words"
+              key={word}
+              className="text-2xl text-black"
+            >
               {word}
             </p>
           );
@@ -101,6 +113,7 @@ export const Game = ({
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type here....."
           className="text-2xl"
+          data-test="game-input"
         />
       </div>
     </div>
