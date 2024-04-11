@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:cypress": "cypress open"
+    "test:run": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest",
+    "test:e2e": "cypress run --headless",
+    "test:ci": "start-server-and-test start http://localhost:3000 test:run"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",
@@ -49,6 +49,7 @@
     "lint-staged": "^15.2.2",
     "postcss": "^8",
     "prettier": "^3.2.5",
+    "start-server-and-test": "^2.0.3",
     "tailwindcss": "^3.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5"
