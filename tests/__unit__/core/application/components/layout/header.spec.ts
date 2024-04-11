@@ -1,5 +1,3 @@
-import '@testing-library/jest-dom';
-
 import { render } from '@testing-library/react';
 
 import { Header } from '@/core/application/components/layout/header';
