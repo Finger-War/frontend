@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 
 import { act, renderHook } from '@testing-library/react';
 
-import { UseMatchData } from '@/application/hooks/useMatchData';
+import { UseMatchData } from '@/core/application/hooks/useMatchData';
 
 describe('UseMatchData Hook', () => {
   test('Should initialize matchData with default data', () => {

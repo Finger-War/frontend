@@ -2,22 +2,22 @@
 
 import React, { useState } from 'react';
 
-import { Footer } from '@/application/components/layout/footer';
-import { Header } from '@/application/components/layout/header';
-import { Button } from '@/application/components/ui/button';
+import { Footer } from '@/core/application/components/layout/footer';
+import { Header } from '@/core/application/components/layout/header';
+import { Button } from '@/core/application/components/ui/button';
 
 import { Game } from './components/game';
 import { Timer } from './components/timer';
 import { Wpm } from './components/wpm';
 
-import { UseMatchData } from '@/application/hooks/useMatchData';
+import { UseMatchData } from '@/core/application/hooks/useMatchData';
 import { UseQueryResult } from '@tanstack/react-query';
 
 import {
   WikipediaRandomWords,
   ErrorDetails,
-} from '@/infrastructure/services/useWikipedia';
-import { LoadingSpinner } from '@/application/components/ui/spinner';
+} from '@/core/infrastructure/services/useWikipedia';
+import { LoadingSpinner } from '@/core/application/components/ui/spinner';
 
 interface IHomePage {
   query: UseQueryResult<WikipediaRandomWords, ErrorDetails>;
