@@ -1,4 +1,4 @@
-import { Input } from '@/core/application/components/ui/input';
+import { Input } from '@/core/presentation/components/ui/input';
 import { useState, useEffect } from 'react';
 
 interface IGame {

@@ -1,7 +1,6 @@
-import { htmlToText, symbolsToText } from '@/core/infrastructure/utils';
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-export type WikipediaRandomWords = string[];
+import { htmlToText, symbolsToText } from '@/core/infrastructure/utils';
 
 export type ErrorDetails = {
   message?: string;
@@ -16,7 +15,7 @@ export type ErrorDetails = {
 
 const baseUrl = 'https://pt.wikipedia.org';
 
-async function getWikipediaRandomWords(): Promise<WikipediaRandomWords> {
+async function getWikipediaRandomWords(): Promise<string[]> {
   const randomSummaryResponse = await fetch(
     `${baseUrl}/api/rest_v1/page/random/summary`,
     {
@@ -70,8 +69,12 @@ async function getWikipediaRandomWords(): Promise<WikipediaRandomWords> {
   return words;
 }
 
-export const UseWikipedia = () => {
-  const query = useQuery<WikipediaRandomWords, ErrorDetails>({
+export interface IUseWikipedia {
+  query: UseQueryResult<string[], ErrorDetails>;
+}
+
+export const UseWikipedia = (): IUseWikipedia => {
+  const query = useQuery<string[], ErrorDetails>({
     queryKey: ['wikipedia'],
     queryFn: () => getWikipediaRandomWords(),
   });

@@ -1,34 +1,27 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { Footer } from '@/core/application/components/layout/footer';
-import { Header } from '@/core/application/components/layout/header';
-import { Button } from '@/core/application/components/ui/button';
+import { Footer } from '@/core/presentation/components/layout/footer';
+import { Header } from '@/core/presentation/components/layout/header';
+import { Button } from '@/core/presentation/components/ui/button';
 
 import { Game } from './components/game';
 import { Timer } from './components/timer';
 import { Wpm } from './components/wpm';
 
-import { UseMatchData } from '@/core/application/hooks/useMatchData';
-import { UseQueryResult } from '@tanstack/react-query';
+import { UseMatchData } from '@/core/presentation/hooks/useMatchData';
+import { LoadingSpinner } from '@/core/presentation/components/ui/spinner';
 
-import {
-  WikipediaRandomWords,
-  ErrorDetails,
-} from '@/core/infrastructure/services/useWikipedia';
-import { LoadingSpinner } from '@/core/application/components/ui/spinner';
-import { SocketIoAdapter } from '@/core/main/adapter/socket.io-adapter';
+import { IUseWikipedia } from '@/core/infrastructure/services/useWikipedia';
 
-interface IHomePage {
-  query: UseQueryResult<WikipediaRandomWords, ErrorDetails>;
+interface Props {
+  makeLoadRandomWords: IUseWikipedia;
 }
 
-export const HomePage = ({ query }: IHomePage) => {
+export const HomePage: React.FC<Props> = ({ makeLoadRandomWords }: Props) => {
   const [showWpm, setShowWpm] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  const client = SocketIoAdapter();
 
   const { matchData, dispatchMatchData } = UseMatchData();
 
@@ -46,11 +39,7 @@ export const HomePage = ({ query }: IHomePage) => {
     dispatchMatchData({ type: 'increment_wpm' });
   };
 
-  useEffect(() => {
-    client.connect();
-  }, []);
-
-  const { isLoading, data: words } = query;
+  const { isLoading, data: words } = makeLoadRandomWords.query;
 
   if (isLoading || !words) {
     return (
