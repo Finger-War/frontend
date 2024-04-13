@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Footer } from '@/core/application/components/layout/footer';
 import { Header } from '@/core/application/components/layout/header';
@@ -18,6 +18,7 @@ import {
   ErrorDetails,
 } from '@/core/infrastructure/services/useWikipedia';
 import { LoadingSpinner } from '@/core/application/components/ui/spinner';
+import { SocketIoAdapter } from '@/core/main/adapter/socket.io-adapter';
 
 interface IHomePage {
   query: UseQueryResult<WikipediaRandomWords, ErrorDetails>;
@@ -26,6 +27,8 @@ interface IHomePage {
 export const HomePage = ({ query }: IHomePage) => {
   const [showWpm, setShowWpm] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  const client = SocketIoAdapter();
 
   const { matchData, dispatchMatchData } = UseMatchData();
 
@@ -42,6 +45,10 @@ export const HomePage = ({ query }: IHomePage) => {
   const onCorrectWord = () => {
     dispatchMatchData({ type: 'increment_wpm' });
   };
+
+  useEffect(() => {
+    client.connect();
+  }, []);
 
   const { isLoading, data: words } = query;
 
