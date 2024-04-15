@@ -29,7 +29,12 @@
         "newlinesBetween": "always",
         "groups": [
           "/^next/",
-          "/^@core/",
+          "/^react/",
+          "/^@application/",
+          "/^@domain/",
+          "/^@infrastructure/",
+          "/^@main/",
+          "/^@presentation/",
           "/^test/",
           "module",
           [

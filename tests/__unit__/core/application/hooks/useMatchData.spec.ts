@@ -1,6 +1,5 @@
+import { UseMatchData } from '@/presentation/hooks/useMatchData';
 import { act, renderHook } from '@testing-library/react';
-
-import { UseMatchData } from '@/core/presentation/hooks/useMatchData';
 
 describe('UseMatchData Hook', () => {
   test('Should initialize matchData with default data', () => {

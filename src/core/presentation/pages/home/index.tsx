@@ -1,12 +1,13 @@
 'use client';
 
-import { IUseWikipedia } from '@/core/infrastructure/services/useWikipedia';
-import { Footer } from '@/core/presentation/components/layout/footer';
-import { Header } from '@/core/presentation/components/layout/header';
-import { Button } from '@/core/presentation/components/ui/button';
-import { LoadingSpinner } from '@/core/presentation/components/ui/spinner';
-import { UseMatchData } from '@/core/presentation/hooks/useMatchData';
 import React, { useState } from 'react';
+
+import { IUseWikipedia } from '@/infrastructure/services/useWikipedia';
+import { Footer } from '@/presentation/components/layout/footer';
+import { Header } from '@/presentation/components/layout/header';
+import { Button } from '@/presentation/components/ui/button';
+import { LoadingSpinner } from '@/presentation/components/ui/spinner';
+import { UseMatchData } from '@/presentation/hooks/useMatchData';
 
 import { Game } from './components/game';
 import { Timer } from './components/timer';

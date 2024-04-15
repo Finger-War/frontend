@@ -1,4 +1,4 @@
-import { htmlToText, symbolsToText } from '@/core/infrastructure/utils';
+import { htmlToText, symbolsToText } from '@/infrastructure/utils';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 export type ErrorDetails = {

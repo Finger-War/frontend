@@ -1,5 +1,6 @@
-import { Input } from '@/core/presentation/components/ui/input';
 import { useState, useEffect } from 'react';
+
+import { Input } from '@/presentation/components/ui/input';
 
 interface IGame {
   words: string[];

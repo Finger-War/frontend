@@ -1,6 +1,5 @@
+import { Header } from '@/presentation/components/layout/header';
 import { render } from '@testing-library/react';
-
-import { Header } from '@/core/presentation/components/layout/header';
 
 describe('Header Component', () => {
   test('Should renders correctly', () => {

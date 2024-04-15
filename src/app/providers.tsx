@@ -1,6 +1,6 @@
 'use client';
 
-import '@/core/presentation/global.css';
+import '@/presentation/global.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';

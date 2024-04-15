@@ -1,7 +1,7 @@
 'use client';
 
-import { UseWikipedia } from '@/core/infrastructure/services/useWikipedia';
-import { HomePage } from '@/core/presentation/pages/home';
+import { UseWikipedia } from '@/infrastructure/services/useWikipedia';
+import { HomePage } from '@/presentation/pages/home';
 
 const MakeHome = () => {
   return <HomePage makeLoadRandomWords={UseWikipedia()} />;
