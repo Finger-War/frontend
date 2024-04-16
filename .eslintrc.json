@@ -20,7 +20,8 @@
   },
   "ignorePatterns": [
     ".eslintrc.js",
-    ".lintstagedrc.js"
+    ".lintstagedrc.js",
+    "next.config.mjs"
   ],
   "rules": {
     "import-helpers/order-imports": [

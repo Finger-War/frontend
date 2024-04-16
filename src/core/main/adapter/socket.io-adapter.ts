@@ -1,3 +1,4 @@
+import { envs } from '@/main/config/envs';
 import { io, ManagerOptions } from 'socket.io-client';
 
 export const SocketIoAdapter = () => {
@@ -5,7 +6,7 @@ export const SocketIoAdapter = () => {
     autoConnect: false,
   };
 
-  const client = io('http://localhost:5000', options);
+  const client = io(envs.API_HTTP_URL || '', options);
 
   return client;
 };

@@ -18,6 +18,11 @@ const nextConfig = {
   experimental: {
     forceSwcTransforms: true,
   },
+
+  env: {
+    API_HTTP_URL: process.env.API_HTTP_URL,
+    API_WS_URL: process.env.API_WS_URL,
+  },
 };
 
 export default nextConfig;
