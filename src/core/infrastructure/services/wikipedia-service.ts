@@ -68,9 +68,7 @@ async function getWikipediaRandomWords(): Promise<string[]> {
   return words;
 }
 
-export interface IWikipediaService {
-  query: UseQueryResult<string[], ErrorDetails>;
-}
+export type IWikipediaService = UseQueryResult<string[], ErrorDetails>;
 
 export const WikipediaService = (): IWikipediaService => {
   const query = useQuery<string[], ErrorDetails>({
@@ -78,5 +76,5 @@ export const WikipediaService = (): IWikipediaService => {
     queryFn: () => getWikipediaRandomWords(),
   });
 
-  return { query };
+  return query;
 };

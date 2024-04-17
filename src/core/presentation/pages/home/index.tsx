@@ -7,7 +7,7 @@ import { Footer } from '@/presentation/components/layout/footer';
 import { Header } from '@/presentation/components/layout/header';
 import { Button } from '@/presentation/components/ui/button';
 import { LoadingSpinner } from '@/presentation/components/ui/spinner';
-import { UseMatchData } from '@/presentation/hooks/useMatchData';
+import { IUseMatchData } from '@/presentation/hooks/useMatchData';
 
 import { Game } from './components/game';
 import { Timer } from './components/timer';
@@ -15,13 +15,15 @@ import { Wpm } from './components/wpm';
 
 interface Props {
   makeLoadRandomWords: IWikipediaService;
+  makeMatchData: IUseMatchData;
 }
 
-export const HomePage: React.FC<Props> = ({ makeLoadRandomWords }: Props) => {
+export const HomePage: React.FC<Props> = ({
+  makeLoadRandomWords,
+  makeMatchData,
+}: Props) => {
   const [showWpm, setShowWpm] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  const { matchData, dispatchMatchData } = UseMatchData();
 
   const start = () => {
     setIsPlaying(true);
@@ -37,7 +39,8 @@ export const HomePage: React.FC<Props> = ({ makeLoadRandomWords }: Props) => {
     dispatchMatchData({ type: 'increment_wpm' });
   };
 
-  const { isLoading, data: words } = makeLoadRandomWords.query;
+  const { matchData, dispatchMatchData } = makeMatchData;
+  const { isLoading, data: words } = makeLoadRandomWords;
 
   if (isLoading || !words) {
     return (

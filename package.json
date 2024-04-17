@@ -11,7 +11,7 @@
     "test:run": "npm run test:unit && npm run test:e2e",
     "test:unit": "vitest run",
     "test:e2e": "cypress run",
-    "test:ci": "start-server-and-test start http://localhost:3000 test:run"
+    "test:ci": "start-server-and-test dev http://localhost:3000 test:run"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",

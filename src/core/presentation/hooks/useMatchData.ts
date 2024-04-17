@@ -8,7 +8,12 @@ interface IAction {
   type: 'increment_wpm';
 }
 
-export const UseMatchData = () => {
+export interface IUseMatchData {
+  matchData: IState;
+  dispatchMatchData: React.Dispatch<IAction>;
+}
+
+export const UseMatchData = (): IUseMatchData => {
   const reducer = (state: IState, action: IAction) => {
     switch (action.type) {
       case 'increment_wpm':
