@@ -68,11 +68,11 @@ async function getWikipediaRandomWords(): Promise<string[]> {
   return words;
 }
 
-export interface IUseWikipedia {
+export interface IWikipediaService {
   query: UseQueryResult<string[], ErrorDetails>;
 }
 
-export const UseWikipedia = (): IUseWikipedia => {
+export const WikipediaService = (): IWikipediaService => {
   const query = useQuery<string[], ErrorDetails>({
     queryKey: ['wikipedia'],
     queryFn: () => getWikipediaRandomWords(),

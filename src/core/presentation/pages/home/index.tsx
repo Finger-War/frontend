@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { IUseWikipedia } from '@/infrastructure/services/useWikipedia';
+import { IWikipediaService } from '@/infrastructure/services/wikipedia-service';
 import { Footer } from '@/presentation/components/layout/footer';
 import { Header } from '@/presentation/components/layout/header';
 import { Button } from '@/presentation/components/ui/button';
@@ -14,7 +14,7 @@ import { Timer } from './components/timer';
 import { Wpm } from './components/wpm';
 
 interface Props {
-  makeLoadRandomWords: IUseWikipedia;
+  makeLoadRandomWords: IWikipediaService;
 }
 
 export const HomePage: React.FC<Props> = ({ makeLoadRandomWords }: Props) => {

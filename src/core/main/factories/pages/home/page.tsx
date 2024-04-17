@@ -1,10 +1,10 @@
 'use client';
 
-import { UseWikipedia } from '@/infrastructure/services/useWikipedia';
+import { WikipediaService } from '@/infrastructure/services/wikipedia-service';
 import { HomePage } from '@/presentation/pages/home';
 
 const MakeHome = () => {
-  return <HomePage makeLoadRandomWords={UseWikipedia()} />;
+  return <HomePage makeLoadRandomWords={WikipediaService()} />;
 };
 
 export default MakeHome;
