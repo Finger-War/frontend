@@ -20,8 +20,7 @@ const nextConfig = {
   },
 
   env: {
-    API_HTTP_URL: process.env.API_HTTP_URL,
-    API_WS_URL: process.env.API_WS_URL,
+    BACKEND_API_URL: process.env.BACKEND_API_URL,
   },
 };
 

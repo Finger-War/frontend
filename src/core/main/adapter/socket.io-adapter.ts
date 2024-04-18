@@ -6,7 +6,7 @@ export const SocketIoAdapter = () => {
     autoConnect: false,
   };
 
-  const client = io(envs.API_HTTP_URL || '', options);
+  const client = io(envs.BACKEND_API_URL, options);
 
   return client;
 };
