@@ -14,12 +14,18 @@ export const UseMatchQueue = (): IUseMatchQueue => {
     client.connect();
 
     return () => {
+      getOutQueue();
+
       client.disconnect();
     };
   }, []);
 
   const joinQueue = () => {
     client.emit(GameConstants.server.joinQueue);
+  };
+
+  const getOutQueue = () => {
+    client.emit(GameConstants.server.getOutQueue);
   };
 
   return { joinQueue };
