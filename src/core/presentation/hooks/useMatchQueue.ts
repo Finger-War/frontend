@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { SocketIoAdapter } from '@/main/adapter/socket.io-adapter';
+import { GameConstants } from '@/main/constants/game-constants';
 
 export interface IUseMatchQueue {
   joinQueue: () => void;
@@ -18,7 +19,7 @@ export const UseMatchQueue = (): IUseMatchQueue => {
   }, []);
 
   const joinQueue = () => {
-    client.emit('join-queue');
+    client.emit(GameConstants.server.joinQueue);
   };
 
   return { joinQueue };
