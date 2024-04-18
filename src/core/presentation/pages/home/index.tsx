@@ -8,6 +8,7 @@ import { Header } from '@/presentation/components/layout/header';
 import { Button } from '@/presentation/components/ui/button';
 import { LoadingSpinner } from '@/presentation/components/ui/spinner';
 import { IUseMatchData } from '@/presentation/hooks/useMatchData';
+import { IUseMatchQueue } from '@/presentation/hooks/useMatchQueue';
 
 import { Game } from './components/game';
 import { Timer } from './components/timer';
@@ -15,17 +16,24 @@ import { Wpm } from './components/wpm';
 
 interface Props {
   makeLoadRandomWords: IWikipediaService;
+  makeMatchQueue: IUseMatchQueue;
   makeMatchData: IUseMatchData;
 }
 
 export const HomePage: React.FC<Props> = ({
   makeLoadRandomWords,
   makeMatchData,
+  makeMatchQueue,
 }: Props) => {
+  const { joinQueue } = makeMatchQueue;
+  const { matchData, dispatchMatchData } = makeMatchData;
+  const { isLoading, data: words } = makeLoadRandomWords;
+
   const [showWpm, setShowWpm] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const start = () => {
+    joinQueue();
     setIsPlaying(true);
   };
 
@@ -38,9 +46,6 @@ export const HomePage: React.FC<Props> = ({
   const onCorrectWord = () => {
     dispatchMatchData({ type: 'increment_wpm' });
   };
-
-  const { matchData, dispatchMatchData } = makeMatchData;
-  const { isLoading, data: words } = makeLoadRandomWords;
 
   if (isLoading || !words) {
     return (
