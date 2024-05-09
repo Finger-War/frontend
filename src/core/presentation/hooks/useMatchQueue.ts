@@ -1,32 +1,19 @@
-import { useEffect } from 'react';
-
-import { SocketIoAdapter } from '@/infrastructure/adapters/socket.io-adapter';
+import { SocketIoClient } from '@/infrastructure/providers/socket-io-client-provider';
 import { GameConstants } from '@/main/constants/game-constants';
 
 export interface IUseMatchQueue {
   joinQueue: () => void;
+  getOutQueue: () => void;
 }
 
 export const UseMatchQueue = (): IUseMatchQueue => {
-  const client = SocketIoAdapter();
-
-  useEffect(() => {
-    client.connect();
-
-    return () => {
-      getOutQueue();
-
-      client.disconnect();
-    };
-  }, []);
-
   const joinQueue = () => {
-    client.emit(GameConstants.server.joinQueue);
+    SocketIoClient.emit(GameConstants.server.joinQueue);
   };
 
   const getOutQueue = () => {
-    client.emit(GameConstants.server.getOutQueue);
+    SocketIoClient.emit(GameConstants.server.getOutQueue);
   };
 
-  return { joinQueue };
+  return { joinQueue, getOutQueue };
 };

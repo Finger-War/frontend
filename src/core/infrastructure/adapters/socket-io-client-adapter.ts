@@ -1,7 +1,7 @@
 import { envs } from '@/main/config/envs';
 import { io, ManagerOptions } from 'socket.io-client';
 
-export const SocketIoAdapter = () => {
+export const SocketIoClientAdapter = () => {
   const options: Partial<ManagerOptions> = {
     autoConnect: false,
   };
