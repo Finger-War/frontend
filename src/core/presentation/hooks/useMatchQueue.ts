@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { SocketIoAdapter } from '@/main/adapter/socket.io-adapter';
+import { SocketIoAdapter } from '@/infrastructure/adapters/socket.io-adapter';
 import { GameConstants } from '@/main/constants/game-constants';
 
 export interface IUseMatchQueue {
