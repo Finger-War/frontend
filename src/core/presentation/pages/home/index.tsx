@@ -25,20 +25,18 @@ export const HomePage: React.FC<Props> = ({
   makeMatchData,
   makeMatchQueue,
 }: Props) => {
-  const { joinQueue } = makeMatchQueue;
+  const { joinQueue, isMatch, stopMatch } = makeMatchQueue;
   const { matchData, dispatchMatchData } = makeMatchData;
   const { isLoading, data: words } = makeLoadRandomWords;
 
   const [showWpm, setShowWpm] = useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const start = () => {
     joinQueue();
-    setIsPlaying(true);
   };
 
   const stop = () => {
-    setIsPlaying(false);
+    stopMatch();
 
     setShowWpm(true);
   };
@@ -60,7 +58,7 @@ export const HomePage: React.FC<Props> = ({
     <div className="flex flex-col min-h-screen justify-between">
       <Header />
 
-      {!isPlaying ? (
+      {!isMatch ? (
         <div className="flex flex-col justify-center items-center space-y-6">
           <p className="text-2xl font-medium">Start Playing</p>
           {showWpm && <Wpm data-test="wpm" value={matchData.wpm} />}
