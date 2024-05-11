@@ -7,11 +7,15 @@ export interface IUseMatchQueue {
   joinQueue: () => void;
   getOutQueue: () => void;
   isMatch: boolean;
-  stopMatch: () => void;
+  setIsMatch: (value: boolean) => void;
+  handleWord: (value: string) => void;
+  adversaryWords: string;
+  setAdversaryWords: (value: string) => void;
 }
 
 export const UseMatchQueue = (): IUseMatchQueue => {
   const [isMatch, setIsMatch] = useState<boolean>(false);
+  const [adversaryWords, setAdversaryWords] = useState<string>('');
 
   const joinQueue = () => {
     SocketIoClient.emit(GameConstants.server.joinQueue);
@@ -21,11 +25,24 @@ export const UseMatchQueue = (): IUseMatchQueue => {
     SocketIoClient.emit(GameConstants.server.getOutQueue);
   };
 
-  const stopMatch = () => setIsMatch(false);
+  const handleWord = (value: string) => {
+    SocketIoClient.emit(GameConstants.server.handleWord, value);
+  };
+
+  const onAdversaryWords = (value: string) => setAdversaryWords(value);
 
   useEffect(() => {
     SocketIoClient.on(GameConstants.server.matchStart, () => setIsMatch(true));
+    SocketIoClient.on(GameConstants.server.adversaryWords, onAdversaryWords);
   }, []);
 
-  return { joinQueue, getOutQueue, isMatch, stopMatch };
+  return {
+    joinQueue,
+    getOutQueue,
+    isMatch,
+    setIsMatch,
+    handleWord,
+    adversaryWords,
+    setAdversaryWords,
+  };
 };

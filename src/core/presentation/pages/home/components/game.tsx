@@ -4,6 +4,7 @@ import { Input } from '@/presentation/components/ui/input';
 
 interface IGame {
   words: string[];
+  onInput?: (value: string) => void;
   onInputCorrectWord?: (value: string) => void;
   onInputWrongWord?: (value: string) => void;
   enoughWords?: () => void;
@@ -11,6 +12,7 @@ interface IGame {
 
 export const Game = ({
   words,
+  onInput,
   onInputCorrectWord,
   onInputWrongWord,
   enoughWords,
@@ -62,6 +64,10 @@ export const Game = ({
     }
 
     return addCorrectWord(inputWithoutSpace);
+  }, [input]);
+
+  useEffect(() => {
+    onInput?.(input);
   }, [input]);
 
   useEffect(() => {

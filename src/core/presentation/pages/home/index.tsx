@@ -25,7 +25,7 @@ export const HomePage: React.FC<Props> = ({
   makeMatchData,
   makeMatchQueue,
 }: Props) => {
-  const { joinQueue, isMatch, stopMatch } = makeMatchQueue;
+  const { joinQueue, isMatch, setIsMatch, handleWord } = makeMatchQueue;
   const { matchData, dispatchMatchData } = makeMatchData;
   const { isLoading, data: words } = makeLoadRandomWords;
 
@@ -36,7 +36,7 @@ export const HomePage: React.FC<Props> = ({
   };
 
   const stop = () => {
-    stopMatch();
+    setIsMatch(false);
 
     setShowWpm(true);
   };
@@ -73,6 +73,7 @@ export const HomePage: React.FC<Props> = ({
           <Game
             data-test="game"
             words={words}
+            onInput={(value: string) => handleWord(value)}
             onInputCorrectWord={onCorrectWord}
             enoughWords={stop}
           />
