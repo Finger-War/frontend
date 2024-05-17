@@ -11,7 +11,6 @@ import { IUseMatchData } from '@/presentation/hooks/useMatchData';
 import { IUseMatchQueue } from '@/presentation/hooks/useMatchQueue';
 
 import { Game } from './components/game';
-import { Timer } from './components/timer';
 import { Wpm } from './components/wpm';
 
 interface Props {
@@ -25,7 +24,8 @@ export const HomePage: React.FC<Props> = ({
   makeMatchData,
   makeMatchQueue,
 }: Props) => {
-  const { joinQueue, isMatch, setIsMatch, handleWord } = makeMatchQueue;
+  const { joinQueue, isMatch, setIsMatch, matchTime, handleWord } =
+    makeMatchQueue;
   const { matchData, dispatchMatchData } = makeMatchData;
   const { isLoading, data: words } = makeLoadRandomWords;
 
@@ -69,7 +69,9 @@ export const HomePage: React.FC<Props> = ({
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center space-y-4">
-          <Timer data-test="timer" initialTime={30} onTimeEnd={stop} />
+          <p data-test="timer" className="text-2xl font-semibold">
+            Time: {matchTime}
+          </p>
           <Game
             data-test="game"
             words={words}

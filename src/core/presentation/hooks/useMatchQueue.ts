@@ -8,6 +8,8 @@ export interface IUseMatchQueue {
   getOutQueue: () => void;
   isMatch: boolean;
   setIsMatch: (value: boolean) => void;
+  matchTime: number;
+  setMatchTime: (value: number) => void;
   handleWord: (value: string) => void;
   adversaryWords: string;
   setAdversaryWords: (value: string) => void;
@@ -15,6 +17,7 @@ export interface IUseMatchQueue {
 
 export const UseMatchQueue = (): IUseMatchQueue => {
   const [isMatch, setIsMatch] = useState<boolean>(false);
+  const [matchTime, setMatchTime] = useState<number>(0);
   const [adversaryWords, setAdversaryWords] = useState<string>('');
 
   const joinQueue = () => {
@@ -32,8 +35,12 @@ export const UseMatchQueue = (): IUseMatchQueue => {
   const onAdversaryWords = (value: string) => setAdversaryWords(value);
 
   useEffect(() => {
-    SocketIoClient.on(GameConstants.server.matchStart, () => setIsMatch(true));
-    SocketIoClient.on(GameConstants.server.adversaryWords, onAdversaryWords);
+    SocketIoClient.on(GameConstants.client.matchStart, () => setIsMatch(true));
+    SocketIoClient.on(GameConstants.client.matchStop, () => setIsMatch(false));
+    SocketIoClient.on(GameConstants.client.matchTimer, (time) =>
+      setMatchTime(time),
+    );
+    SocketIoClient.on(GameConstants.client.adversaryWords, onAdversaryWords);
   }, []);
 
   return {
@@ -41,6 +48,8 @@ export const UseMatchQueue = (): IUseMatchQueue => {
     getOutQueue,
     isMatch,
     setIsMatch,
+    matchTime,
+    setMatchTime,
     handleWord,
     adversaryWords,
     setAdversaryWords,
