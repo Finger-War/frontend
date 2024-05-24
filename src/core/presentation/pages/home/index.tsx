@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { IWikipediaService } from '@/infrastructure/services/wikipedia-service';
 import { Footer } from '@/presentation/components/layout/footer';
 import { Header } from '@/presentation/components/layout/header';
 import { Button } from '@/presentation/components/ui/button';
@@ -14,24 +13,25 @@ import { Game } from './components/game';
 import { Wpm } from './components/wpm';
 
 interface Props {
-  makeLoadRandomWords: IWikipediaService;
   makeMatchQueue: IUseMatchQueue;
   makeMatchData: IUseMatchData;
 }
 
 export const HomePage: React.FC<Props> = ({
-  makeLoadRandomWords,
   makeMatchData,
   makeMatchQueue,
 }: Props) => {
-  const { joinQueue, isMatch, setIsMatch, matchTime, handleWord } =
+  const { joinQueue, isMatch, setIsMatch, words, matchTime, handleWord } =
     makeMatchQueue;
+
   const { matchData, dispatchMatchData } = makeMatchData;
-  const { isLoading, data: words } = makeLoadRandomWords;
 
   const [showWpm, setShowWpm] = useState<boolean>(false);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const start = () => {
+    setIsLoading(true);
     joinQueue();
   };
 
@@ -45,7 +45,11 @@ export const HomePage: React.FC<Props> = ({
     dispatchMatchData({ type: 'increment_wpm' });
   };
 
-  if (isLoading || !words) {
+  useEffect(() => {
+    setIsLoading(false);
+  }, [isMatch]);
+
+  if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen space-y-4">
         <p className="text-2xl font-medium">Loading</p>
