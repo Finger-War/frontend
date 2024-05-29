@@ -3,7 +3,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "tests/__unit__/support/unit.ts"
   ],
   "exclude": [
     "node_modules",
