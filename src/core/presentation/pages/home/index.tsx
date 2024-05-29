@@ -6,7 +6,6 @@ import { Footer } from '@/presentation/components/layout/footer';
 import { Header } from '@/presentation/components/layout/header';
 import { Button } from '@/presentation/components/ui/button';
 import { LoadingSpinner } from '@/presentation/components/ui/spinner';
-import { IUseMatchData } from '@/presentation/hooks/useMatchData';
 import { IUseMatchQueue } from '@/presentation/hooks/useMatchQueue';
 
 import { Game } from './components/game';
@@ -14,19 +13,20 @@ import { Wpm } from './components/wpm';
 
 interface Props {
   makeMatchQueue: IUseMatchQueue;
-  makeMatchData: IUseMatchData;
 }
 
-export const HomePage: React.FC<Props> = ({
-  makeMatchData,
-  makeMatchQueue,
-}: Props) => {
-  const { joinQueue, isMatch, setIsMatch, words, matchTime, handleWord } =
-    makeMatchQueue;
-
-  const { matchData, dispatchMatchData } = makeMatchData;
-
-  const [showWpm, setShowWpm] = useState<boolean>(false);
+export const HomePage: React.FC<Props> = ({ makeMatchQueue }: Props) => {
+  const {
+    informations,
+    joinQueue,
+    isMatch,
+    setIsMatch,
+    handleCorrectWord,
+    words,
+    matchTime,
+    handleWord,
+    matchResult,
+  } = makeMatchQueue;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -37,12 +37,10 @@ export const HomePage: React.FC<Props> = ({
 
   const stop = () => {
     setIsMatch(false);
-
-    setShowWpm(true);
   };
 
-  const onCorrectWord = () => {
-    dispatchMatchData({ type: 'increment_wpm' });
+  const onCorrectWord = (value: string) => {
+    handleCorrectWord(value);
   };
 
   useEffect(() => {
@@ -65,11 +63,29 @@ export const HomePage: React.FC<Props> = ({
       {!isMatch ? (
         <div className="flex flex-col justify-center items-center space-y-6">
           <p className="text-2xl font-medium">Start Playing</p>
-          {showWpm && <Wpm data-test="wpm" value={matchData.wpm} />}
+
+          {matchResult && (
+            <div className="flex flex-col items-center">
+              {matchResult.result.status === 'winner' && (
+                <p className="text-1xl font-medium">😊 You won the match</p>
+              )}
+              {matchResult.result.status === 'is-tie' && (
+                <p className="text-1xl font-medium">🤔 You tied the match</p>
+              )}
+              {matchResult.result.status === 'loser' && (
+                <p className="text-1xl font-medium">😞 You lost the match</p>
+              )}
+              {<Wpm data-test="wpm" value={matchResult.result.words} />}
+            </div>
+          )}
 
           <Button data-test="play-button" size="lg" onClick={start}>
             Play
           </Button>
+
+          <p className="text-1xl font-semibold">
+            🔥 Connected Players: {informations.connectedPlayers}
+          </p>
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center space-y-4">
