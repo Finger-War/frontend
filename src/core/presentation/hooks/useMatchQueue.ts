@@ -56,7 +56,6 @@ export const UseMatchQueue = (): IUseMatchQueue => {
   const onMatchStop = () => {
     setWords([]);
     setIsMatch(false);
-    setMatchResult(undefined);
   };
 
   const handleWord = (value: string) => {
