@@ -6,6 +6,8 @@ import { Footer } from '@/presentation/components/layout/footer';
 import { Header } from '@/presentation/components/layout/header';
 import { Button } from '@/presentation/components/ui/button';
 import { LoadingSpinner } from '@/presentation/components/ui/spinner';
+import { ToastAction } from '@/presentation/components/ui/toast';
+import { useToast } from '@/presentation/components/ui/use-toast';
 import { IUseMatchQueue } from '@/presentation/hooks/useMatchQueue';
 
 import { Game } from './components/game';
@@ -26,9 +28,12 @@ export const HomePage: React.FC<Props> = ({ makeMatchQueue }: Props) => {
     matchTime,
     handleWord,
     matchResult,
+    matchError,
   } = makeMatchQueue;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const start = () => {
     setIsLoading(true);
@@ -45,7 +50,29 @@ export const HomePage: React.FC<Props> = ({ makeMatchQueue }: Props) => {
 
   useEffect(() => {
     setIsLoading(false);
+
+    return () => {};
   }, [isMatch]);
+
+  useEffect(() => {
+    if (!matchError) {
+      return;
+    }
+
+    setIsLoading(false);
+
+    toast({
+      title: 'An unexpected error occurred',
+      description: `😭 ${matchError.errorMessage}`,
+      action: (
+        <ToastAction altText="Try again" onClick={start}>
+          Try again
+        </ToastAction>
+      ),
+    });
+
+    return () => {};
+  }, [matchError]);
 
   if (isLoading) {
     return (
