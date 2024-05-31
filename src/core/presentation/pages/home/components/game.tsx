@@ -79,15 +79,15 @@ export const Game = ({
   }, [correctWords, wrongWords]);
 
   return (
-    <div className="flex flex-col space-y-4" {...rest}>
-      <div className="flex flex-row space-x-4 self-center">
+    <div className="container flex flex-col space-y-4 w-5/6" {...rest}>
+      <div className="flex flex-wrap">
         {words.map((word) => {
           if (correctWords.includes(word)) {
             return (
               <p
                 data-test="game-words"
                 key={word}
-                className="text-2xl  text-green-600"
+                className="text-2xl pl-2  text-green-600"
               >
                 {word}
               </p>
@@ -99,7 +99,7 @@ export const Game = ({
               <p
                 data-test="game-words"
                 key={word}
-                className="text-2xl text-red-600"
+                className="text-2xl pl-2 text-red-600"
               >
                 {word}
               </p>
@@ -110,7 +110,7 @@ export const Game = ({
             <p
               data-test="game-words"
               key={word}
-              className="text-2xl text-black"
+              className="text-2xl pl-2 text-black"
             >
               {word}
             </p>
