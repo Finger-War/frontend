@@ -2,6 +2,7 @@
 
 import '@/presentation/global.css';
 import { SocketIoClientProvider } from '@/infrastructure/providers/socket-io-client-provider';
+import { Toaster } from '@/presentation/components/ui/toaster';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Analytics } from '@vercel/analytics/react';
@@ -14,6 +15,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={QueryCLient}>
       <SocketIoClientProvider>
         {children}
+        <Toaster />
         <Analytics />
         <SpeedInsights />
         <ReactQueryDevtools initialIsOpen={false} />

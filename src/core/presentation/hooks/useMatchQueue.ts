@@ -8,6 +8,10 @@ type IMatchResult = Match & {
   result: { isTie: string; status: string; winner: string; words: number };
 };
 
+type IMatchError = {
+  errorMessage: string;
+};
+
 export interface IUseMatchQueue {
   informations: { connectedPlayers: number };
   joinQueue: () => void;
@@ -20,6 +24,7 @@ export interface IUseMatchQueue {
   handleWord: (value: string) => void;
   handleCorrectWord: (value: string) => void;
   matchResult: IMatchResult | undefined;
+  matchError: IMatchError | undefined;
   adversaryWords: string;
   setAdversaryWords: (value: string) => void;
 }
@@ -34,6 +39,7 @@ export const UseMatchQueue = (): IUseMatchQueue => {
   const [words, setWords] = useState<string[]>([]);
   const [matchTime, setMatchTime] = useState<number>(0);
   const [matchResult, setMatchResult] = useState<IMatchResult | undefined>();
+  const [matchError, setMatchError] = useState<IMatchError | undefined>();
   const [adversaryWords, setAdversaryWords] = useState<string>('');
 
   const oninformations = (value: { connectedPlayers: number }) => {
@@ -70,6 +76,10 @@ export const UseMatchQueue = (): IUseMatchQueue => {
     setMatchResult(value);
   };
 
+  const onMatchError = (value: IMatchError) => {
+    setMatchError(value);
+  };
+
   const onAdversaryWords = (value: string) => setAdversaryWords(value);
 
   useEffect(() => {
@@ -80,6 +90,7 @@ export const UseMatchQueue = (): IUseMatchQueue => {
       setMatchTime(time),
     );
     SocketIoClient.on(GameConstants.client.matchResult, onMatchResult);
+    SocketIoClient.on(GameConstants.client.matchError, onMatchError);
     SocketIoClient.on(GameConstants.client.adversaryWords, onAdversaryWords);
   }, []);
 
@@ -95,6 +106,7 @@ export const UseMatchQueue = (): IUseMatchQueue => {
     handleWord,
     handleCorrectWord,
     matchResult,
+    matchError,
     adversaryWords,
     setAdversaryWords,
   };
