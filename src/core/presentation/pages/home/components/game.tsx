@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
 import { Input } from '@/presentation/components/ui/input';
+import { UseWordsBatch } from '@/presentation/hooks/useWordsBatch';
 
 interface IGame {
   words: string[];
   onInput?: (value: string) => void;
   onInputCorrectWord?: (value: string) => void;
   onInputWrongWord?: (value: string) => void;
-  enoughWords?: () => void;
 }
 
 export const Game = ({
@@ -15,17 +15,19 @@ export const Game = ({
   onInput,
   onInputCorrectWord,
   onInputWrongWord,
-  enoughWords,
   ...rest
 }: IGame) => {
+  const batchSize = 30;
+
   const [input, setInput] = useState<string>('');
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0);
+  const [wordsStatus, setWordStatus] = useState<Record<string, string>>({});
 
-  const [correctWords, setCorrectWords] = useState<string[]>([]);
-  const [wrongWords, setWrongWords] = useState<string[]>([]);
+  const { currentBatch, loadNextBatch } = UseWordsBatch(words, batchSize);
 
   const addCorrectWord = (input: string) => {
-    setCorrectWords((prev) => [...prev, input]);
+    wordsStatus[currentWordIndex] = 'correct';
+
     setCurrentWordIndex((prev) => prev + 1);
 
     onInputCorrectWord?.(input);
@@ -34,7 +36,8 @@ export const Game = ({
   };
 
   const addWrongWord = (input: string) => {
-    setWrongWords((prev) => [...prev, input]);
+    wordsStatus[currentWordIndex] = 'wrong';
+
     setCurrentWordIndex((prev) => prev + 1);
 
     onInputWrongWord?.(input);
@@ -42,10 +45,23 @@ export const Game = ({
     resetInput();
   };
 
+  const getNewBatch = () => {
+    setCurrentWordIndex(0);
+    setWordStatus({});
+
+    loadNextBatch();
+
+    resetInput();
+  };
+
   const resetInput = () => setInput('');
 
   useEffect(() => {
-    if (!words) {
+    return () => loadNextBatch();
+  }, []);
+
+  useEffect(() => {
+    if (!currentBatch) {
       return;
     }
 
@@ -57,65 +73,49 @@ export const Game = ({
 
     const inputWithoutSpace = input.trim();
 
-    const isCorrectWord = inputWithoutSpace === words[currentWordIndex];
+    const isCorrectWord = inputWithoutSpace === currentBatch[currentWordIndex];
 
     if (!isCorrectWord) {
-      return addWrongWord(words[currentWordIndex]);
+      return addWrongWord(currentBatch[currentWordIndex]);
     }
 
     return addCorrectWord(inputWithoutSpace);
   }, [input]);
 
   useEffect(() => {
-    onInput?.(input);
+    const isTheLastBatchWord = currentWordIndex === currentBatch.length;
+
+    if (!isTheLastBatchWord) {
+      return;
+    }
+
+    return getNewBatch();
   }, [input]);
 
   useEffect(() => {
-    if (correctWords.length + wrongWords.length === words.length) {
-      enoughWords?.();
-    }
+    onInput?.(input);
 
     return () => {};
-  }, [correctWords, wrongWords]);
+  }, [input]);
 
   return (
-    <div className="container flex flex-col space-y-4 w-5/6" {...rest}>
+    <div className="container flex flex-col space-y-4 w-4/6" {...rest}>
       <div className="flex flex-wrap">
-        {words.map((word) => {
-          if (correctWords.includes(word)) {
-            return (
-              <p
-                data-test="game-words"
-                key={word}
-                className="text-2xl pl-2  text-green-600"
-              >
-                {word}
-              </p>
-            );
-          }
-
-          if (wrongWords.includes(word)) {
-            return (
-              <p
-                data-test="game-words"
-                key={word}
-                className="text-2xl pl-2 text-red-600"
-              >
-                {word}
-              </p>
-            );
-          }
-
-          return (
-            <p
-              data-test="game-words"
-              key={word}
-              className="text-2xl pl-2 text-black"
-            >
-              {word}
-            </p>
-          );
-        })}
+        {currentBatch.map((word, index) => (
+          <p
+            key={index}
+            data-test="game-words"
+            className={`text-2xl pl-2 ${
+              wordsStatus[index] === 'correct'
+                ? 'text-green-600'
+                : wordsStatus[index] === 'wrong'
+                  ? 'text-red-600'
+                  : 'text-black'
+            }`}
+          >
+            {word}
+          </p>
+        ))}
       </div>
 
       <div>
