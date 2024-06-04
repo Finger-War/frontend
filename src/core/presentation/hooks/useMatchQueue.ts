@@ -42,7 +42,7 @@ export const UseMatchQueue = (): IUseMatchQueue => {
   const [matchError, setMatchError] = useState<IMatchError | undefined>();
   const [adversaryWords, setAdversaryWords] = useState<string>('');
 
-  const oninformations = (value: { connectedPlayers: number }) => {
+  const onInformations = (value: { connectedPlayers: number }) => {
     setinformations(value);
   };
 
@@ -78,19 +78,21 @@ export const UseMatchQueue = (): IUseMatchQueue => {
 
   const onMatchError = (value: IMatchError) => {
     setMatchError(value);
+
+    SocketIoClient.emit(GameConstants.server.clientError);
   };
 
   const onAdversaryWords = (value: string) => setAdversaryWords(value);
 
   useEffect(() => {
-    SocketIoClient.on(GameConstants.client.informations, oninformations);
+    SocketIoClient.on(GameConstants.client.informations, onInformations);
     SocketIoClient.on(GameConstants.client.matchStart, onMatchStart);
     SocketIoClient.on(GameConstants.client.matchStop, onMatchStop);
     SocketIoClient.on(GameConstants.client.matchTimer, (time) =>
       setMatchTime(time),
     );
     SocketIoClient.on(GameConstants.client.matchResult, onMatchResult);
-    SocketIoClient.on(GameConstants.client.matchError, onMatchError);
+    SocketIoClient.on(GameConstants.client.serverError, onMatchError);
     SocketIoClient.on(GameConstants.client.adversaryWords, onAdversaryWords);
   }, []);
 
