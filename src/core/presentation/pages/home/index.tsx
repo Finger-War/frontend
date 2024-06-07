@@ -22,7 +22,6 @@ export const HomePage: React.FC<Props> = ({ makeMatchQueue }: Props) => {
     informations,
     joinQueue,
     isMatch,
-    setIsMatch,
     handleCorrectWord,
     words,
     matchTime,
@@ -38,10 +37,6 @@ export const HomePage: React.FC<Props> = ({ makeMatchQueue }: Props) => {
   const start = () => {
     setIsLoading(true);
     joinQueue();
-  };
-
-  const stop = () => {
-    setIsMatch(false);
   };
 
   const onCorrectWord = (value: string) => {
@@ -124,7 +119,6 @@ export const HomePage: React.FC<Props> = ({ makeMatchQueue }: Props) => {
             words={words}
             onInput={(value: string) => handleWord(value)}
             onInputCorrectWord={onCorrectWord}
-            enoughWords={stop}
           />
         </div>
       )}
