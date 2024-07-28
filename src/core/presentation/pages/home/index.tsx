@@ -101,7 +101,7 @@ export const HomePage: React.FC<Props> = ({ makeMatchQueue }: Props) => {
             </div>
           )}
 
-          <Button data-test="play-button" size="lg" onClick={start}>
+          <Button data-test="play-button" onClick={start}>
             Play
           </Button>
 

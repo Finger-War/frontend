@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { Match } from '@/domain/entities/match';
-import { SocketIoClient } from '@/infrastructure/providers/socket-io-client-provider';
+import { JoinChannel } from '@/infrastructure/adapters/websocket-client-adapter';
 import { GameConstants } from '@/main/constants/game-constants';
+import { Channel } from 'phoenix';
 
 type IMatchResult = Match & {
   result: { isTie: string; status: string; winner: string; words: number };
@@ -30,6 +31,8 @@ export interface IUseMatchQueue {
 }
 
 export const UseMatchQueue = (): IUseMatchQueue => {
+  const [queueChannel, setQueueChannel] = useState<Channel | null>(null);
+
   const [informations, setinformations] = useState<{
     connectedPlayers: number;
   }>({
@@ -47,11 +50,19 @@ export const UseMatchQueue = (): IUseMatchQueue => {
   };
 
   const joinQueue = () => {
-    SocketIoClient.emit(GameConstants.server.joinQueue);
+    if (!queueChannel) {
+      return;
+    }
+
+    queueChannel.push(GameConstants.server.joinQueue, {});
   };
 
   const getOutQueue = () => {
-    SocketIoClient.emit(GameConstants.server.getOutQueue);
+    if (!queueChannel) {
+      return;
+    }
+
+    queueChannel.push(GameConstants.server.getOutQueue, {});
   };
 
   const onMatchStart = (words: string[]) => {
@@ -65,11 +76,19 @@ export const UseMatchQueue = (): IUseMatchQueue => {
   };
 
   const handleWord = (value: string) => {
-    SocketIoClient.emit(GameConstants.server.handleWord, value);
+    if (!queueChannel) {
+      return;
+    }
+
+    queueChannel.push(GameConstants.server.handleWord, { word: value });
   };
 
   const handleCorrectWord = (value: string) => {
-    SocketIoClient.emit(GameConstants.server.handleCorrectWord, value);
+    if (!queueChannel) {
+      return;
+    }
+
+    queueChannel.push(GameConstants.server.handleCorrectWord, { word: value });
   };
 
   const onMatchResult = (value: IMatchResult) => {
@@ -79,22 +98,38 @@ export const UseMatchQueue = (): IUseMatchQueue => {
   const onMatchError = (value: IMatchError) => {
     setMatchError(value);
 
-    SocketIoClient.emit(GameConstants.server.clientError);
+    if (!queueChannel) {
+      return;
+    }
+
+    queueChannel.push(GameConstants.server.clientError, {});
   };
 
   const onAdversaryWords = (value: string) => setAdversaryWords(value);
 
   useEffect(() => {
-    SocketIoClient.on(GameConstants.client.informations, onInformations);
-    SocketIoClient.on(GameConstants.client.matchStart, onMatchStart);
-    SocketIoClient.on(GameConstants.client.matchStop, onMatchStop);
-    SocketIoClient.on(GameConstants.client.matchTimer, (time) =>
+    if (typeof window == 'undefined') {
+      return;
+    }
+
+    const queueChannel = JoinChannel('queue:lobby');
+
+    queueChannel.on(GameConstants.client.informations, onInformations);
+    queueChannel.on(GameConstants.client.matchStart, onMatchStart);
+    queueChannel.on(GameConstants.client.matchStop, onMatchStop);
+    queueChannel.on(GameConstants.client.matchTimer, (time) =>
       setMatchTime(time),
     );
-    SocketIoClient.on(GameConstants.client.matchResult, onMatchResult);
-    SocketIoClient.on(GameConstants.client.serverError, onMatchError);
-    SocketIoClient.on(GameConstants.client.adversaryWords, onAdversaryWords);
-  }, []);
+    queueChannel.on(GameConstants.client.matchResult, onMatchResult);
+    queueChannel.on(GameConstants.client.serverError, onMatchError);
+    queueChannel.on(GameConstants.client.adversaryWords, onAdversaryWords);
+
+    setQueueChannel(queueChannel);
+
+    return () => {
+      queueChannel.leave();
+    };
+  }, [typeof window]);
 
   return {
     informations,
